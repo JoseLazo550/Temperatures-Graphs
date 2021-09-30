@@ -17,7 +17,7 @@ def run():
     
     #Set title
     ax.set_title('Temperatures in Oaxaca troughout 2020', loc = 'center',
-        fontdict = {'font':'Courier','fontsize':14, 'fontweight':'bold'})
+        fontdict = {'font':'courier','fontsize':14, 'fontweight':'bold'})
     
     #Name Axis
     ax.set_ylabel("Temperature in °C")
