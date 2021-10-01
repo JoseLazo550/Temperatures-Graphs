@@ -10,24 +10,35 @@ class Entity:
         self.data_temp = {months:temperatures}
         
 
-entities = ['Aguascalientes', 'Baja California','Baja California Sur','Campeche']
-months = ('Enero','Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Agosto', 'Octubre', 'Noviembre', 'Diciembre')
-all_data = []
+mexico_entities = ['Aguascalientes', 'Baja California','Baja California Sur','Campeche']
+months = ('Enero','Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')
+
 
 def get_data(path):
+    all_state_temperatures = {}
     with open(path, 'r', encoding = 'utf-8') as f:
         f_list = list(enumerate(f))
-        
-        for i, data in f_list:
+
+    data_location = {}
+    for i, data in f_list:#Search in a enumerate list
+            # state = data[:len(data)-1]
+            state = data.strip()
+            if state in mexico_entities:#For each entity in list, do:
+                begin = int(i)+1#Where data begins 
+                end = begin+11#Where data ends
+                data_range = (begin,end)
+                data_location.setdefault(state,data_range)
+
+    
+    for entity in mexico_entities:
+
+        only_temperatures = [t.strip() for i, t in f_list if i in range(data_location[entity][0],data_location[entity][1]+1)] #Extract temperatures for each state from file enumerate
+        monthly_temperatures = dict(zip(months, only_temperatures))#save temperatures for each month
+        all_state_temperatures.setdefault(entity, monthly_temperatures)#Save all entitys with its own data
+
+    return all_state_temperatures    
+ 
             
-            data_state = data[:len(data)-1]
-            
-            if data_state == 'Aguascalientes':
-                print('Aguascalientes esta en la linea: '+ str(int(i)+1))
-                
-                
-    print('Data has been gotten')
-          
     
 
 def extract_pdf():#Not yet
@@ -60,8 +71,11 @@ def run():
 
     # name_f = input('Ingresa el nombre del archivo que deseas graficar: ')
     file_path = './files/2020t.txt'#+name_f
-    get_data(file_path)
     
+    
+    temperatures = get_data(file_path)
+    print(temperatures.keys())
+    print(temperatures['Aguascalientes'])
 
 
 if __name__ == "__main__":
