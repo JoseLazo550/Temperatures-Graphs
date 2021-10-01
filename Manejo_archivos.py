@@ -2,6 +2,10 @@ import os
 import re
 import PyPDF2
 
+mexico_entities = ['Aguascalientes', 'Baja California','Baja California Sur','Campeche']
+months = ('Enero','Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')
+
+
 class Entity:
     def __init__(self, name_entity, temperatures, months):
         self.name_entity = name_entity
@@ -10,10 +14,6 @@ class Entity:
         self.data_temp = {months:temperatures}
         
 
-mexico_entities = ['Aguascalientes', 'Baja California','Baja California Sur','Campeche']
-months = ('Enero','Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')
-
-
 def get_data(path):
     all_state_temperatures = {}
     with open(path, 'r', encoding = 'utf-8') as f:
@@ -21,7 +21,6 @@ def get_data(path):
 
     data_location = {}
     for i, data in f_list:#Search in a enumerate list
-            # state = data[:len(data)-1]
             state = data.strip()
             if state in mexico_entities:#For each entity in list, do:
                 begin = int(i)+1#Where data begins 
@@ -38,8 +37,7 @@ def get_data(path):
 
     return all_state_temperatures    
  
-            
-    
+              
 
 def extract_pdf():#Not yet
     try:
@@ -60,17 +58,20 @@ def save_data(text):#Not yet
     with open(path_file, 'w', encoding ='utf-8') as f:
         f.write(text)   
 
-
-def run():
+def interfaz():
     print('Bienvenido\n')
     print(os.getcwd())
     files = os.listdir('./files')
     for file in files:
         print(file)
-    
+
+
+
+def run():
+    interfaz()
 
     # name_f = input('Ingresa el nombre del archivo que deseas graficar: ')
-    file_path = './files/2020t.txt'#+name_f
+    file_path = './files/2020t.txt'
     
     
     temperatures = get_data(file_path)

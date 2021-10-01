@@ -1,27 +1,27 @@
 from matplotlib import markers
 import matplotlib.pyplot as plt
-
-
-def run():
-    temperature_oax = {"January":21.8, "February":22.7, "March":24.6, "April":26.7, "May":25.8, "June":25.0, "July":24.8, 
+temperature_oax = {"January":21.8, "February":22.7, "March":24.6, "April":26.7, "May":25.8, "June":25.0, "July":24.8, 
         "August":24.2, "September":24.3,"October":23.2,"November":22.4, "December":20.3}
+
+def plot_data(monthly_temperature):
     
-    months = [month[:3] for month in temperature_oax]
-    temperatures = [temperature_oax[temp] for temp in temperature_oax]
+    months = [month[:3] for month in monthly_temperature]
+    temperatures = [monthly_temperature[temp] for temp in monthly_temperature]
 
     #Create figure and axis
     figure, ax = plt.subplots()
 
     #Draw lines: (x,y,change colors,markers)
-    ax.plot(months, temperatures, color = 'tab:red', marker = "o")
+    ax.plot(months, temperatures, color = 'tab:blue', marker = "o")
     
     #Set title
-    ax.set_title('Temperatures in Oaxaca troughout 2020', loc = 'center',
-        fontdict = {'font':'courier','fontsize':14, 'fontweight':'bold'})
+    
+    ax.set_title('Temperaturas', loc = 'center',
+        fontdict = {'font':'Arial','fontsize':14, 'fontweight':'bold'})
     
     #Name Axis
-    ax.set_ylabel("Temperature in °C")
-    ax.set_xlabel("Months")
+    ax.set_ylabel("Temperatura en °C")
+    ax.set_xlabel("Mes")
     
     #Save graphic
     #plt.savefig("TemperatureGraphic.png")
@@ -29,6 +29,9 @@ def run():
     #Show Gaphic
     plt.show()
     
+
+def run():
+    plot_data(temperature_oax)
     
 if __name__ == "__main__":
     run()
