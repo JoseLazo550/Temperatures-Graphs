@@ -8,6 +8,8 @@ def plot_data(monthly_temperature):
     months = [month[:3] for month in monthly_temperature]
     temperatures = [monthly_temperature[temp] for temp in monthly_temperature]
 
+    print(months)
+    print(temperatures)
     #Create figure and axis
     figure, ax = plt.subplots()
 
