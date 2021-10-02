@@ -2,6 +2,7 @@ import os
 import re
 import PyPDF2
 from Grafica import plot_data
+
 mexico_entities = ['Aguascalientes', 'Baja California','Baja California Sur','Campeche']
 months = ('Enero','Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')
 
@@ -71,7 +72,7 @@ def run():
     file_path = './files/2020t.txt'
     temperatures = get_data(file_path)
     print(temperatures['Aguascalientes'])
-    plot_data(temperatures['Aguascalientes'])
+    plot_data(temperatures, months)
 
 if __name__ == "__main__":
     run()

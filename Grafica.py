@@ -1,20 +1,28 @@
+from os import stat
 from matplotlib import markers
 import matplotlib.pyplot as plt
-temperature_oax = {"January":21.8, "February":22.7, "March":24.6, "April":26.7, "May":25.8, "June":25.0, "July":24.8, 
-        "August":24.2, "September":24.3,"October":23.2,"November":22.4, "December":20.3}
 
-def plot_data(monthly_temperature):
-    
-    months = [month[:3] for month in monthly_temperature]
-    temperatures = [monthly_temperature[temp] for temp in monthly_temperature]
+def plot_data(temperature_data, months):
 
-    print(months)
-    print(temperatures)
     #Create figure and axis
+    plt.rcParams["figure.figsize"] = (12, 8)
     figure, ax = plt.subplots()
-
-    #Draw lines: (x,y,change colors,markers)
-    ax.plot(months, temperatures, color = 'tab:blue', marker = "o")
+    
+    for state in temperature_data:
+        print(state)
+        temperatures = []
+        for temp in temperature_data[state]:
+             temperatures.append(temperature_data[state][temp]) 
+           
+        months_plot = [m[:3] for m in months]
+        
+        #Draw lines: (x,y,change colors,markers)
+        ax.plot(months_plot, temperatures, marker = "o", label = state)
+        print(months_plot)
+        print(temperatures)
+    
+    ax.legend(loc = 'upper right')
+    
     
     #Set title
     
@@ -33,7 +41,7 @@ def plot_data(monthly_temperature):
     
 
 def run():
-    plot_data(temperature_oax)
+    pass
     
 if __name__ == "__main__":
     run()
