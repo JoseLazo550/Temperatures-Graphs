@@ -3,7 +3,11 @@ import re
 import PyPDF2
 from Grafica import plot_data
 
-mexico_entities = ['Aguascalientes', 'Baja California','Baja California Sur','Campeche']
+# mexico_entities = ('Aguascalientes', 'Baja California','Baja California Sur','Campeche','Coahuila','Colima','Chiapas','Chihuahua','Ciudad de México',
+#     'Durango','Guanajuato','Guerrero','Hidalgo','Jalisco','Estado de México','Michoacán','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro',
+#     'Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatán','Zacatecas')
+
+mexico_entities = ('Aguascalientes','Baja California')
 months = ('Enero','Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')
 
 class Entity:
@@ -29,7 +33,6 @@ def get_data(path):
                 data_location.setdefault(state,data_range)
 
     for entity in mexico_entities:
-
         only_temperatures = [float(t.strip()) for i, t in f_list if i in range(data_location[entity][0],data_location[entity][1]+1)] #Extract temperatures for each state from file enumerate
         monthly_temperatures = dict(zip(months, only_temperatures))#save temperatures for each month
         all_state_temperatures.setdefault(entity, monthly_temperatures)#Save all entitys with its own data
@@ -42,24 +45,20 @@ def extract_pdf():#Not yet
         pdfFileObj = open('./files/2020.pdf', 'rb')
         pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
         pageObj = pdfReader.getPage(0)
-        texto = pageObj.extractText()
-
-        return texto
+        text = pageObj.extractText()
+        path_file = './files/2020t.txt'
+        with open(path_file, 'w', encoding ='utf-8') as f:
+            f.write(text) 
+        
     except:
         print("Error al abrir el archivo")
     finally:
         pdfFileObj.close()
 
 
-def save_data(text):#Not yet
-    
-    path_file = './files/2020t.txt'
-    with open(path_file, 'w', encoding ='utf-8') as f:
-        f.write(text)   
-
-
 def interfaz():
     print('Bienvenido\n')
+    print('Estos son los archivos disponibles: \n')
     print(os.getcwd())
     files = os.listdir('./files')
     for file in files:
@@ -68,6 +67,7 @@ def interfaz():
 
 def run():
     interfaz()
+    extract_pdf()
     # name_f = input('Ingresa el nombre del archivo que deseas graficar: ')
     file_path = './files/2020t.txt'
     temperatures = get_data(file_path)

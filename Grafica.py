@@ -17,7 +17,7 @@ def plot_data(temperature_data, months):
         months_plot = [m[:3] for m in months]
         
         #Draw lines: (x,y,change colors,markers)
-        ax.plot(months_plot, temperatures, marker = "o", label = state)
+        ax.plot(months_plot, temperatures, marker = ".", label = state)
         print(months_plot)
         print(temperatures)
     
