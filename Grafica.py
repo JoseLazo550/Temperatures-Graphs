@@ -2,7 +2,7 @@ from os import stat
 from matplotlib import markers
 import matplotlib.pyplot as plt
 
-def plot_data(temperature_data, months):
+def plot_data(temperature_data, months: tuple, year: str):
 
     #Create figure and axis
     plt.rcParams["figure.figsize"] = (12, 8)
@@ -26,7 +26,7 @@ def plot_data(temperature_data, months):
     
     #Set title
     
-    ax.set_title('Temperaturas', loc = 'center',
+    ax.set_title('Temperaturas nacionales del año '+ year, loc = 'center',
         fontdict = {'font':'Arial','fontsize':14, 'fontweight':'bold'})
     
     #Name Axis

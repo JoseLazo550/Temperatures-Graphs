@@ -1,5 +1,4 @@
 import os
-import re
 import PyPDF2
 from Grafica import plot_data
 
@@ -7,8 +6,8 @@ from Grafica import plot_data
 #     'Durango','Guanajuato','Guerrero','Hidalgo','Jalisco','Estado de México','Michoacán','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro',
 #     'Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatán','Zacatecas')
 
-mexico_entities = ('Aguascalientes','Baja California')
-months = ('Enero','Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')
+mexico_entities: tuple = ('Oaxaca','Baja California','Tabasco')
+months: tuple = ('Enero','Febrero','Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre')
 
 class Entity:
     def __init__(self, name_entity, temperatures, months):
@@ -18,7 +17,12 @@ class Entity:
         self.data_temp = {months:temperatures}
         
 
-def get_data(path):
+def get_data(path: str):
+    '''
+        This function save information from a txt into Dictionary of States
+        Each state has a  dictionary, keys = Months, values = temperatures
+        returns a nested dictionary
+    '''
     all_state_temperatures = {}
     with open(path, 'r', encoding = 'utf-8') as f:
         f_list = list(enumerate(f))
@@ -40,16 +44,23 @@ def get_data(path):
     return all_state_temperatures    
  
               
-def extract_pdf():#Not yet
+def extract_pdf(path_pdf: str) -> str:#Not yet
+    '''
+        This function extracts temperature information from a PDF (SMN)
+        Then save it in a txt file 
+        returns the txt file's path
+    '''
     try:
-        pdfFileObj = open('./files/2020.pdf', 'rb')
+        pdfFileObj = open(path_pdf, 'rb')
         pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
         pageObj = pdfReader.getPage(0)
-        text = pageObj.extractText()
-        path_file = './files/2020t.txt'
+        text: str = pageObj.extractText()
+
+        path_file: str = path_pdf[:12]+'temperatures.txt'
         with open(path_file, 'w', encoding ='utf-8') as f:
             f.write(text) 
-        
+
+        return path_file
     except:
         print("Error al abrir el archivo")
     finally:
@@ -67,12 +78,12 @@ def interfaz():
 
 def run():
     interfaz()
-    extract_pdf()
-    # name_f = input('Ingresa el nombre del archivo que deseas graficar: ')
-    file_path = './files/2020t.txt'
-    temperatures = get_data(file_path)
-    print(temperatures['Aguascalientes'])
-    plot_data(temperatures, months)
+    path_pdf: str = './files/2019.pdf'#Select file
+    data_path = extract_pdf(path_pdf)
+    temperatures = get_data(data_path)
+    year: str = path_pdf[8:]#Year in string
+    year = year[:4]
+    plot_data(temperatures, months, year)
 
 if __name__ == "__main__":
     run()
